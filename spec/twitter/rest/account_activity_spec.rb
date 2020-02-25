@@ -8,11 +8,11 @@ describe Twitter::REST::AccountActivity do
   describe '#create_webhook' do
     context 'with a webhook url passed' do
       before do
-        stub_post('/1.1/account_activity/all/env_name/webhooks.json?url=url').with(query: {url: 'url'}).to_return(body: fixture('account_activity_create_webhook.json'), headers: {content_type: 'application/json; charset=utf-8'})
+        stub_post('/1.1/account_activity/all/env_name/webhooks.json').with(body: {url: 'url'}).to_return(body: fixture('account_activity_create_webhook.json'), headers: {content_type: 'application/json; charset=utf-8'})
       end
       it 'request create webhook' do
         @client.create_webhook('env_name', 'url')
-        expect(a_post('/1.1/account_activity/all/env_name/webhooks.json?url=url').with(body: {})).to have_been_made
+        expect(a_post('/1.1/account_activity/all/env_name/webhooks.json').with(body: {url: 'url'})).to have_been_made
       end
 
       it 'returns a webhook response' do

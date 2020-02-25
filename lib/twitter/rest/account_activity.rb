@@ -19,7 +19,7 @@ module Twitter
       # @param env_name [String] Environment Name.
       # @param url [String] Encoded URL for the callback endpoint.
       def create_webhook(env_name, url)
-        perform_request(:json_post, "/1.1/account_activity/all/#{env_name}/webhooks.json?url=#{url}")
+        perform_request(:post, "/1.1/account_activity/all/#{env_name}/webhooks.json", url: url)
       end
 
       # Returns all environments, webhook URLs and their statuses for the authenticating app. Currently, only one webhook URL can be registered to each environment.
