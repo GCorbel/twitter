@@ -152,7 +152,7 @@ module Twitter
       # @overload destroy_direct_message(*ids)
       #   @param ids [Enumerable<Integer>] A collection of direct message IDs.
       def destroy_direct_message(*ids)
-        perform_requests(:delete, '/1.1/direct_messages/events/destroy.json', pmap(ids))
+        perform_requests(:delete, '/1.1/direct_messages/events/destroy.json', ids)
         nil
       end
 
