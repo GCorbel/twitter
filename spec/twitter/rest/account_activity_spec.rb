@@ -138,11 +138,11 @@ describe Twitter::REST::AccountActivity do
           before do
             allow(@client).to receive(:user_token?).and_return(false)
             @client.bearer_token = 'BT'
-            stub_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
+            stub_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
           end
           it 'request deactivate subscription' do
             @client.deactivate_subscription('1234567890', user_id: '0987654321')
-            expect(a_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321.json').with(body: {})).to have_been_made
+            expect(a_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').with(body: {})).to have_been_made
           end
 
           it 'returns a webhook response' do
@@ -319,11 +319,11 @@ describe Twitter::REST::AccountActivity do
           before do
             allow(@client).to receive(:user_token?).and_return(false)
             @client.bearer_token = 'BT'
-            stub_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
+            stub_delete('/1.1/account_activity/all/1234567890/subscriptions/0987654321.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
           end
           it 'request deactivate subscription' do
             @client.deactivate_subscription('1234567890', user_id: '0987654321')
-            expect(a_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').with(body: {})).to have_been_made
+            expect(a_delete('/1.1/account_activity/all/1234567890/subscriptions/0987654321.json').with(body: {})).to have_been_made
           end
 
           it 'returns a webhook response' do

@@ -172,9 +172,9 @@ module Twitter
 
       def deactivate_with_app_token(env_name_or_webhook_id, user_id)
         if enterprise_api
-          perform_request(:delete, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/#{user_id}.json")
-        else
           perform_request(:delete, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/#{user_id}/all.json")
+        else
+          perform_request(:delete, "/1.1/account_activity/all/#{env_name_or_webhook_id}/subscriptions/#{user_id}.json")
         end
       end
     end
