@@ -118,37 +118,18 @@ describe Twitter::REST::AccountActivity do
 
     describe '#deactivate_subscription' do
       context 'deactivate subscription' do
-        context 'with user token' do
-          before do
-            allow(@client).to receive(:user_token?).and_return(true)
-            stub_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/all.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
-          end
-          it 'request deactivate subscription' do
-            @client.deactivate_subscription('1234567890')
-            expect(a_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/all.json').with(body: {})).to have_been_made
-          end
-
-          it 'returns a webhook response' do
-            response = @client.deactivate_subscription('1234567890')
-            expect(response).to eq('')
-          end
+        before do
+          @client.bearer_token = 'BT'
+          stub_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
+        end
+        it 'request deactivate subscription' do
+          @client.deactivate_subscription('1234567890', user_id: '0987654321')
+          expect(a_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').with(body: {})).to have_been_made
         end
 
-        context 'with app token' do
-          before do
-            allow(@client).to receive(:user_token?).and_return(false)
-            @client.bearer_token = 'BT'
-            stub_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
-          end
-          it 'request deactivate subscription' do
-            @client.deactivate_subscription('1234567890', user_id: '0987654321')
-            expect(a_delete('/1.1/account_activity/webhooks/1234567890/subscriptions/0987654321/all.json').with(body: {})).to have_been_made
-          end
-
-          it 'returns a webhook response' do
-            response = @client.deactivate_subscription('1234567890', user_id: '0987654321')
-            expect(response).to eq('')
-          end
+        it 'returns a webhook response' do
+          response = @client.deactivate_subscription('1234567890', user_id: '0987654321')
+          expect(response).to eq('')
         end
       end
     end
@@ -299,37 +280,19 @@ describe Twitter::REST::AccountActivity do
 
     describe '#deactivate_subscription' do
       context 'deactivate subscription' do
-        context 'with user token' do
-          before do
-            allow(@client).to receive(:user_token?).and_return(true)
-            stub_delete('/1.1/account_activity/all/env_name/subscriptions.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
-          end
-          it 'request deactivate subscription' do
-            @client.deactivate_subscription('env_name')
-            expect(a_delete('/1.1/account_activity/all/env_name/subscriptions.json').with(body: {})).to have_been_made
-          end
-
-          it 'returns a webhook response' do
-            response = @client.deactivate_subscription('env_name')
-            expect(response).to eq('')
-          end
+        before do
+          allow(@client).to receive(:user_token?).and_return(false)
+          @client.bearer_token = 'BT'
+          stub_delete('/1.1/account_activity/all/1234567890/subscriptions/0987654321.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
+        end
+        it 'request deactivate subscription' do
+          @client.deactivate_subscription('1234567890', user_id: '0987654321')
+          expect(a_delete('/1.1/account_activity/all/1234567890/subscriptions/0987654321.json').with(body: {})).to have_been_made
         end
 
-        context 'with app token' do
-          before do
-            allow(@client).to receive(:user_token?).and_return(false)
-            @client.bearer_token = 'BT'
-            stub_delete('/1.1/account_activity/all/1234567890/subscriptions/0987654321.json').to_return(status: 204, headers: {content_type: 'application/json; charset=utf-8'})
-          end
-          it 'request deactivate subscription' do
-            @client.deactivate_subscription('1234567890', user_id: '0987654321')
-            expect(a_delete('/1.1/account_activity/all/1234567890/subscriptions/0987654321.json').with(body: {})).to have_been_made
-          end
-
-          it 'returns a webhook response' do
-            response = @client.deactivate_subscription('1234567890', user_id: '0987654321')
-            expect(response).to eq('')
-          end
+        it 'returns a webhook response' do
+          response = @client.deactivate_subscription('1234567890', user_id: '0987654321')
+          expect(response).to eq('')
         end
       end
     end

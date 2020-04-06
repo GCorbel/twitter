@@ -124,7 +124,11 @@ module Twitter
       # @param env_name_or_webhook_id [String] Environment Name or Webhook Id
       # @param user_id [String] Id of the user to unsubscribe
       def deactivate_subscription(env_name_or_webhook_id, user_id: nil)
-        user_token? ? deactivate_with_user_token(env_name_or_webhook_id) : deactivate_with_app_token(env_name_or_webhook_id, user_id)
+        if enterprise_api
+          perform_request(:delete, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/#{user_id}/all.json")
+        else
+          perform_request(:delete, "/1.1/account_activity/all/#{env_name_or_webhook_id}/subscriptions/#{user_id}.json")
+        end
       end
 
       # Returns the count of subscriptions that are currently active on your account for all activities.
@@ -157,24 +161,6 @@ module Twitter
           perform_request(:get, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/all/list.json")
         else
           perform_request(:get, "/1.1/account_activity/all/#{env_name_or_webhook_id}/subscriptions/list.json")
-        end
-      end
-
-    private
-
-      def deactivate_with_user_token(env_name_or_webhook_id)
-        if enterprise_api
-          perform_request(:delete, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/all.json")
-        else
-          perform_request(:delete, "/1.1/account_activity/all/#{env_name_or_webhook_id}/subscriptions.json")
-        end
-      end
-
-      def deactivate_with_app_token(env_name_or_webhook_id, user_id)
-        if enterprise_api
-          perform_request(:delete, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/#{user_id}/all.json")
-        else
-          perform_request(:delete, "/1.1/account_activity/all/#{env_name_or_webhook_id}/subscriptions/#{user_id}.json")
         end
       end
     end
