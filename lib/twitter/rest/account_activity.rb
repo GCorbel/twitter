@@ -118,7 +118,7 @@ module Twitter
       # @see https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-enterprise#delete-account-activity-all-env-name-subscriptions
       # @note Deactivate a subscription, Users events will not be sent to the app
       # @rate_limited Yes
-      # @authentication Workes with user context and application context
+      # @authentication Works with user context and application context
       # @raise [Twitter::Error::Unauthorized] Error raised when supplied user credentials are not valid.
       # @return [nil]
       # @param env_name_or_webhook_id [String] Environment Name or Webhook Id
