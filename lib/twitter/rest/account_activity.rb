@@ -123,7 +123,7 @@ module Twitter
       # @return [nil]
       # @param env_name_or_webhook_id [String] Environment Name or Webhook Id
       # @param user_id [String] Id of the user to unsubscribe
-      def deactivate_subscription(env_name_or_webhook_id, user_id: nil)
+      def deactivate_subscription(env_name_or_webhook_id, user_id)
         if enterprise_api
           perform_request(:delete, "/1.1/account_activity/webhooks/#{env_name_or_webhook_id}/subscriptions/#{user_id}/all.json")
         else
